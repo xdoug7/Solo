@@ -33,88 +33,143 @@
         document.documentElement.className = `has-${textColor}-text`;
     </script>
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.18.2/tocbot.css">
+    <style>
+        .gh-content {
+            position: relative;
+        }
+
+        .gh-toc>.toc-list {
+            position: relative;
+        }
+
+        .toc-list {
+            overflow: hidden;
+            list-style: none;
+        }
+
+        @media (min-width: 1300px) {
+            .gh-sidebar {
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                margin-top: 4vmin;
+                grid-column: wide-start / main-start;
+                /* Place the TOC to the left of the content */
+            }
+
+            .gh-toc {
+                padding-top: 25px;
+                position: sticky;
+                /* On larger screens, TOC will stay in the same spot on the page */
+                top: 4vmin;
+            }
+        }
+
+        .gh-toc .is-active-link::before {
+            background-color: var(--ghost-accent-color);
+            /* Defines TOC   accent color based on Accent color set in Ghost Admin */
+        }
+    </style>
+
     {{ghost_head}}
 </head>
 
 <body class="{{body_class}}{{{block "body_class"}}} is-head-{{#match @custom.navigation_layout "Logo on the left"}}left-logo{{else match @custom.navigation_layout "Logo in the middle"}}middle-logo{{else}}stacked{{/match}}{{#match @custom.typography "Elegant serif"}} has-serif-font{{/match}}{{#match @custom.typography "Consistent mono"}} has-mono-font{{/match}}{{#match @custom.post_feed_layout "Classic"}} has-classic-feed{{/match}}{{#match @custom.post_feed_layout "Typographic"}} has-typographic-feed{{/match}}{{#match @custom.post_feed_layout "Parallax"}} has-parallax-feed{{/match}}">
-<div class="gh-site">
+    <div class="gh-site">
 
-    <header id="gh-head" class="gh-head gh-outer">
-        <div class="gh-head-inner gh-inner">
-            <div class="gh-head-brand">
-                <div class="gh-head-brand-wrapper">
-                    <a class="gh-head-logo" href="{{@site.url}}">
-                        {{#if @site.logo}}
+        <header id="gh-head" class="gh-head gh-outer">
+            <div class="gh-head-inner gh-inner">
+                <div class="gh-head-brand">
+                    <div class="gh-head-brand-wrapper">
+                        <a class="gh-head-logo" href="{{@site.url}}">
+                            {{#if @site.logo}}
                             <img src="{{@site.logo}}" alt="{{@site.title}}">
-                        {{else}}
+                            {{else}}
                             {{@site.title}}
-                        {{/if}}
-                    </a>
+                            {{/if}}
+                        </a>
+                    </div>
+                    <button class="gh-search gh-icon-btn" data-ghost-search>{{> "icons/search"}}</button>
+                    <button class="gh-burger"></button>
                 </div>
-                <button class="gh-search gh-icon-btn" data-ghost-search>{{> "icons/search"}}</button>
-                <button class="gh-burger"></button>
-            </div>
 
-            <nav class="gh-head-menu">
-                {{navigation}}
-                {{#unless @site.members_enabled}}
+                <nav class="gh-head-menu">
+                    {{navigation}}
+                    {{#unless @site.members_enabled}}
                     {{#match @custom.navigation_layout "Stacked"}}
-                        <button class="gh-search gh-icon-btn" data-ghost-search>{{> "icons/search"}}</button>
+                    <button class="gh-search gh-icon-btn" data-ghost-search>{{> "icons/search"}}</button>
                     {{/match}}
-                {{/unless}}
-            </nav>
+                    {{/unless}}
+                </nav>
 
-            <div class="gh-head-actions">
-                {{#unless @site.members_enabled}}
+                <div class="gh-head-actions">
+                    {{#unless @site.members_enabled}}
                     {{^match @custom.navigation_layout "Stacked"}}
-                        <button class="gh-search gh-icon-btn" data-ghost-search>{{> "icons/search"}}</button>
+                    <button class="gh-search gh-icon-btn" data-ghost-search>{{> "icons/search"}}</button>
                     {{/match}}
-                {{else}}
+                    {{else}}
                     <button class="gh-search gh-icon-btn" data-ghost-search>{{> "icons/search"}}</button>
                     <div class="gh-head-members">
                         {{#unless @member}}
-                            {{#unless @site.members_invite_only}}
-                                <a class="gh-head-link" href="#/portal/signin" data-portal="signin">Sign in</a>
+                        {{#unless @site.members_invite_only}}
+                        <a class="gh-head-link" href="#/portal/signin" data-portal="signin">Sign in</a>
                                 <a class="gh-head-btn gh-btn gh-primary-btn" href="#/portal/signup" data-portal="signup">Subscribe</a>
-                            {{else}}
+                        {{else}}
                                 <a class="gh-head-btn gh-btn gh-primary-btn" href="#/portal/signin" data-portal="signin">Sign in</a>
-                            {{/unless}}
+                        {{/unless}}
                         {{else}}
                             <a class="gh-head-btn gh-btn gh-primary-btn" href="#/portal/account" data-portal="account">Account</a>
                         {{/unless}}
                     </div>
-                {{/unless}}
+                    {{/unless}}
+                </div>
             </div>
-        </div>
-    </header>
+        </header>
 
-    {{{body}}}
+        {{{body}}}
 
-    <footer class="gh-foot gh-outer">
-        <div class="gh-foot-inner gh-inner">
-            <nav class="gh-foot-menu">
-                {{navigation type="secondary"}}
-            </nav>
+        <footer class="gh-foot gh-outer">
+            <div class="gh-foot-inner gh-inner">
+                <nav class="gh-foot-menu">
+                    {{navigation type="secondary"}}
+                </nav>
 
-            <div class="gh-copyright">
-                {{#unless @custom.footer_text}}
+                <div class="gh-copyright">
+                    {{#unless @custom.footer_text}}
                     {{@site.title}} © {{date format="YYYY"}}. Powered by <a href="https://ghost.org/" target="_blank" rel="noopener">Ghost</a>
-                {{else}}
+                    {{else}}
                     {{@custom.footer_text}}
-                {{/unless}}
+                    {{/unless}}
+                </div>
             </div>
-        </div>
-    </footer>
+        </footer>
 
-</div>
+    </div>
 
-{{#is "post, page"}}
+    {{#is "post, page"}}
     {{> "pswp"}}
-{{/is}}
+    {{/is}}
 
-<script src="{{asset "built/main.min.js"}}"></script>
+    <script src="{{asset "built/main.min.js"}}"></script>
 
-{{ghost_foot}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.18.2/tocbot.min.js"></script>
+
+    {{! Initialize Tocbot after you load the script }}
+    <script>
+        tocbot.init({
+            // Where to render the table of contents.
+            tocSelector: '.gh-toc',
+            // Where to grab the headings to build the table of contents.
+            contentSelector: '.gh-content',
+            // Which headings to grab inside of the contentSelector element.
+            headingSelector: 'h1, h2',
+            // Ensure correct positioning
+            hasInnerContainers: true,
+        });
+    </script>
+
+    {{ghost_foot}}
 
 </body>
 
