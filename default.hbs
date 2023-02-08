@@ -46,6 +46,7 @@
         .toc-list {
             overflow: hidden;
             list-style: none;
+            padding-right: 4rem;
         }
 
         @media (min-width: 1300px) {
@@ -59,8 +60,9 @@
             }
 
             .gh-toc {
-                padding-top: 25px;
+                padding-top: 10px;
                 position: sticky;
+                font-size: 1.4rem;
                 /* On larger screens, TOC will stay in the same spot on the page */
                 top: 4vmin;
             }
@@ -163,9 +165,15 @@
             // Where to grab the headings to build the table of contents.
             contentSelector: '.gh-content',
             // Which headings to grab inside of the contentSelector element.
-            headingSelector: 'h1, h2',
+            headingSelector: 'h1, h2, h3',
             // Ensure correct positioning
             hasInnerContainers: true,
+            // How many heading levels should not be collapsed.
+            // For example, number 6 will show everything since
+            // there are only 6 heading levels and number 0 will collapse them all.
+            // The sections that are hidden will open
+            // and close as you scroll to headings within them.
+            collapseDepth: 0,
         });
     </script>
 

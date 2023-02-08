@@ -1,7 +1,7 @@
 {
     "name": "solo",
     "description": "A Ghost theme",
-    "version": "1.0.1-toc",
+    "version": "1.0.2-toc",
     "private": true,
     "engines": {
         "ghost": ">=5.0.0"
